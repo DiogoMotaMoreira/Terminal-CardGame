@@ -65,3 +65,27 @@ int f1(wchar_t x[]){
     return count;
 }
 
+int f2 (wchar_t x[]){
+    VALOR v = x[0];
+    int n,a = 0;
+
+    for(int i = 0; x[i] != '\0';i++)
+    {
+        if(x[a+1] == '\0' && n < 3 && i == a) return 0;
+        if(valor(x[i]) == v+1)
+        {
+            v = valor(x[i]);
+            i = 0;
+            n++;
+        }
+        if(x[i+1] == '\0' && n<3){
+            n = 0;
+            i = 0;
+            a++;
+            v = x[a];        
+        } else if (x[i+1] == '\0' && n >= 3){
+            return n;
+        }
+    }
+    return 0;
+}
