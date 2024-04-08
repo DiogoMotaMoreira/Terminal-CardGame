@@ -61,7 +61,7 @@ int f1(wchar_t x[]){
     for(int i = 0; x[i] != '\0'; i++)
     {
         if(valor(x[i])==v) count++;
-        else return -1;
+        else return 0;
     }
 
     return count;
@@ -138,6 +138,30 @@ int main() {
     wchar_t output[BUFSIZ]; //wchar_t output[BUFSIZ] = {};
     fgetws (output, sizeof(output), stdin);
     remove_newline(output);
+
+    // função que organiza a função
+    wchar_t orgOutput[wcslen(output)];
+    int count=0;
+    wchar_t cartaVerificar = valor(output[0]);
+
+    for(int j=0; output[j]!='\0';j++)
+    {
+        for(int i = 0; output[i]!='\0'; i++)
+        {
+            if(cartaVerificar==valor(output[i]))
+            {
+                orgOutput[count] = output[i];
+                count++;
+            }
+        }
+        cartaVerificar = cartaVerificar+1;
+    }
+
+    for(int i=0;orgOutput[i]!='\0';i++)
+    {
+        wprintf(L"%lc", orgOutput[i]);
+    }
+
     printf("%d", f2(output));
         //resultado(output);
 
