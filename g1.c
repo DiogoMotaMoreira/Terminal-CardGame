@@ -89,3 +89,28 @@ int f2 (wchar_t x[]){
     }
     return 0;
 }
+
+int tamanhoArray(wchar_t x[]) {
+    return sizeof(x) / sizeof(x[0]);
+}
+
+int f3(wchar_t x[]) {
+    int n = 0;
+    int t = tamanhoArray (x);
+
+    if (t < 6 || t % 2 != 0) return 0;
+    for (int i = 0; i < t; i++) {
+        for (int j = i + 1; j < t; j++) {
+            if (valor (x[i]) == valor (x[j])){
+            for (int k = j + 1; k < t; k++) {
+                if (valor (x[i]) == valor (x[k])) return 0;
+                else  {
+                    n++; 
+                    break;
+                }
+            }
+            }
+        }
+    }
+    return n == t / 2;
+}
