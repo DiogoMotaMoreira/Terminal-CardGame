@@ -90,27 +90,52 @@ int f2 (wchar_t x[]){
     return 0;
 }
 
-int tamanhoArray(wchar_t x[]) {
-    return sizeof(x) / sizeof(x[0]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//retirar \n
+void remove_newline(wchar_t *str) {
+    wchar_t *p = str;
+    while (*p != L'\0') {
+        if (*p == L'\n') {
+            *p = L'\0'; // Replace newline with null terminator
+            break;      // Exit loop after removing the first newline
+        }
+        p++;
+    }
 }
 
-int f3(wchar_t x[]) {
-    int n = 0;
-    int t = tamanhoArray (x);
+int main() {
+    setlocale(LC_CTYPE, "C.UTF-8");
+    wchar_t output[BUFSIZ]; //wchar_t output[BUFSIZ] = {};
+    fgetws (output, sizeof(output), stdin);
+    remove_newline(output);
+    printf("%d", f2(output));
 
-    if (t < 6 || t % 2 != 0) return 0;
-    for (int i = 0; i < t; i++) {
-        for (int j = i + 1; j < t; j++) {
-            if (valor (x[i]) == valor (x[j])){
-            for (int k = j + 1; k < t; k++) {
-                if (valor (x[i]) == valor (x[k])) return 0;
-                else  {
-                    n++; 
-                    break;
-                }
-            }
-            }
-        }
-    }
-    return n == t / 2;
+    return 0;
 }
