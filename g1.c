@@ -110,6 +110,7 @@ void remove_newline(wchar_t *str) {
     }
 }
 
+
 wchar_t cartaMAlta (wchar_t x[]){
     int i;
     wchar_t max = L'🃑'; //A carta mais baixa e o AS de PAUS
@@ -132,9 +133,8 @@ void resultado(wchar_t x[]){
 int main() {
     setlocale(LC_CTYPE, "C.UTF-8");
     
-    int i = 0;
-    scanf ("%d", &i);
-    //for (; i>0; i--){
+    //int i = 0;
+    //scanf ("%d", &i);
     wchar_t output[BUFSIZ]; //wchar_t output[BUFSIZ] = {};
     fgetws (output, sizeof(output), stdin);
     remove_newline(output);
@@ -142,7 +142,7 @@ int main() {
     // função que organiza a função
     wchar_t orgOutput[wcslen(output)];
     int count=0;
-    wchar_t cartaVerificar = valor(output[0]);
+    VALOR cartaVerificar = valor(output[0]);
 
     for(int j=0; output[j]!='\0';j++)
     {
