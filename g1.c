@@ -2,6 +2,7 @@
 #include <wchar.h>
 #include <math.h>
 #include <string.h>
+#include <assert.h>
 #include <locale.h>
 
 typedef enum {
@@ -60,77 +61,85 @@ int f1(wchar_t x[]){
     for(int i = 0; x[i] != '\0'; i++)
     {
         if(valor(x[i])==v) count++;
-        else return 0;
+        else return -1;
     }
 
     return count;
 }
 
-int f2 (wchar_t x[]){
-    VALOR v = x[0];
-    int n,a = 0;
 
-    for(int i = 0; x[i] != '\0';i++)
+int f2 (wchar_t x[]){
+    VALOR v = valor(x[0]);
+    int n = 0;
+    int a = 0;
+    int resultado = -1;
+
+    for(int i = 1; x[i] != '\0';i++)
     {
-        if(x[a+1] == '\0' && n < 3 && i == a) return 0;
-        if(valor(x[i]) == v+1)
+        if(x[a+1] == '\0' && n < 3 && i == a){
+            resultado = 0;
+            break;
+        }
+        else if(valor(x[i]) == (VALOR)(v+1))
         {
             v = valor(x[i]);
             i = 0;
             n++;
         }
-        if(x[i+1] == '\0' && n<3){
+        else if(x[i+1] == '\0' && n<3){
             n = 0;
             i = 0;
             a++;
             v = x[a];        
         } else if (x[i+1] == '\0' && n >= 3){
-            return n;
-        }
-    }
-    return 0;
-}
-
-int f3(wchar_t x[]) {
-    int n = 0;
-    int t = sizeof(x);
-
-    if (t < 6 || t % 2 != 0) return 0;
-    for (int i = 0; i < t; i++) {
-        for (int j = i + 1; j < t; j++) {
-            if (valor (x[i]) == valor (x[j])){
-            for (int k = j + 1; k < t; k++) {
-                if (valor (x[i]) == valor (x[k])) return 0;
-                else  {
-                    n++; 
+            resultado = n;
                     break;
                 }
             }
-            }
-        }
-    }
-    return n == t / 2;
+    return resultado;
 }
 
-
-//retirar \n
 void remove_newline(wchar_t *str) {
     wchar_t *p = str;
     while (*p != L'\0') {
         if (*p == L'\n') {
-            *p = L'\0'; // Replace newline with null terminator
-            break;      // Exit loop after removing the first newline
+            *p = L'\0'; 
+            break;     
         }
         p++;
     }
 }
 
+wchar_t cartaMAlta (wchar_t x[]){
+    int i;
+    wchar_t max = L'🃑'; //A carta mais baixa e o AS de PAUS
+    for (i = 0; x[i] != '\0'; i++){
+        if (valor (max) == valor(x[i]) && naipe(max) < naipe (x[i])) max = x[i];
+        if (valor (max) < valor (x[i])) max = x[i];
+    }
+    return max;
+
+}
+
+void resultado(wchar_t x[]){
+    if (f2(x) != 0) wprintf (L"dupla sequência com %d cartas onde a carta mais alta é %lc", f2(x), cartaMAlta(x)); // change to f3
+    else if (f2(x) != 0) wprintf (L"sequência com %d cartas onde a carta mais alta é %lc", f2(x), cartaMAlta(x));
+    else if (f1(x) != 0) wprintf(L"conjunto com %d cartas onde a carta mais alta é %lc", f1(x), cartaMAlta(x));
+    else printf ("Nada!\n");
+
+}
+
 int main() {
     setlocale(LC_CTYPE, "C.UTF-8");
+    
+    int i = 0;
+    scanf ("%d", &i);
+    //for (; i>0; i--){
     wchar_t output[BUFSIZ]; //wchar_t output[BUFSIZ] = {};
     fgetws (output, sizeof(output), stdin);
     remove_newline(output);
     printf("%d", f2(output));
+        //resultado(output);
 
     return 0;
 }
