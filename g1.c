@@ -89,3 +89,25 @@ int f2 (wchar_t x[]){
     }
     return 0;
 }
+
+//retirar \n
+void remove_newline(wchar_t *str) {
+    wchar_t *p = str;
+    while (*p != L'\0') {
+        if (*p == L'\n') {
+            *p = L'\0'; // Replace newline with null terminator
+            break;      // Exit loop after removing the first newline
+        }
+        p++;
+    }
+}
+
+int main() {
+    setlocale(LC_CTYPE, "C.UTF-8");
+    wchar_t output[BUFSIZ]; //wchar_t output[BUFSIZ] = {};
+    fgetws (output, sizeof(output), stdin);
+    remove_newline(output);
+    printf("%d", f2(output));
+
+    return 0;
+}
